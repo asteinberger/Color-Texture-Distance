@@ -1,0 +1,121 @@
+﻿CS376b
+Programming assignment 2
+
+
+---------------------------------------------------------------------------------
+
+
+Implement a program that can read in image names from a file (imageNamesFile.txt), one 
+image name per line.
+
+
+Compute the 2^6 bin color histogram of each image, where the 6 bits are made up of the
+two high-order bits of each color channel.  Also, compute the normalized 2^6 bin color 
+histogram of each image --- note the values in each bin will be in [0,1].
+
+
+Implement a function to compute the intersection/match computation between color histograms 
+as defined on page 199 (equations 6.4).
+
+
+Implement the L1 (sum of abs differences) and L2 (Euclidean) distance measures between 
+two histograms.
+
+
+The intersecion/match and L1 and L2 distance measure functions should be written
+to allow any sized histograms (not just ones with 2^6 bins.)
+
+
+Assuming that the image file name on the first line of the file imageNamesFile.txt is the query image 
+and the other image file names on all the remaining lines make up a database of images, compute values 
+for the match computation, L1 and L2 distance measures for the color histograms.
+Sort the values from best match to worst among each measure.
+
+
+------------------------------------------------------------------------------------------
+
+
+Given the same images used in the above portion of this assignment, convert them to greyscale
+(to do this, you can simply read them in as color images and use the cvCvtColor(cimg,gimg,CV_BGR2GRAY) 
+openCV function to convert them to greyscale)
+
+
+Implement cross correlation with the prewitt and sobel masks on page 146 to estimate the 
+gradients (find edges) in an image.
+
+
+Using edges from one of the two masks above, compute a texture measure as on page 216 equation
+7.2.  Let's refer to the texture measure when using Prewitt masks, the p216Prewitt texture measure
+and when using the Sobel masks, the p216Sobel texture measure.
+I suggest 2 bins for the magnitude and definitely 3 bins for the angle, just like in the examples on
+that page.  Make sure the two histograms are normalized. 
+ ----  it is up to you to decide what are reasonable ranges of magnitudes of the gradients for
+       a light edge vs. a dark edge. (or if you create more than two bins, then the ranges of
+       magnitudes of each bin)
+ ----  it is also up to you to decide what range of angles consitutes horizontal, vertical and other.
+
+
+Compute that texture measure for an entire image, but for future enhancements, allow a region to be
+specified with four values which are the starting row, starting column, ending row and ending column.
+(Note: for this program, you will always call the function with starting row=0, starting column=0,
+ending row=height-1, ending column=width-1.)
+
+
+Also, implement the local binary partition scheme as described on page 217 to create a histogram
+of 2^8 bins of an image (or an image region with the region described by four values like above).
+Again, for this program, you will only call the local binary partition function you write with:
+starting row=0, starting column=0, ending row=height-1, and ending column=width-1.
+
+
+Assuming the first image file name in imageNamesFile.txt is the query image and the others make
+up a database of images, compute texture similarity scores based on the L1 and L2 distance measures
+for each of the three texture measures (p216Prewitt, p216Sobel and localBinaryPartition).
+Sort the values from best match to worst among each distance measure and texture measure.
+
+
+---------
+
+
+Note:
+For a pair of images, you will generate values for each of the following:
+
+
+Intersection/Match score on the Color histograms
+
+
+L1 distance btwn the Normalized Color histograms
+L2 distance btwn the Normalized Color histograms
+
+
+L1 distance btwn the p216Prewitt texture measure
+L2 distance btwn the p216Prewitt texture measure
+
+
+L1 distance btwn the p216Sobel texture measure
+L2 distance btwn the p216Sobel texture measure
+
+
+L1 distance btwn the local binary partition texture measure
+L2 distance btwn the local binary partition texture measure
+
+
+---------
+
+
+Try your program on various sets of images.
+
+
+Writeup the results and discuss the best match values for each measure.  What do you determine
+to be reasonable cutoff values for each measure such that in general the values to one side of the
+cutoff are correct matches and the values to the other side of the cutoff are incorrect matches?
+
+
+Based on these cutoff values, your program should output a file containing
+a list of image file names that it determines are "matches" to the query image.
+
+
+Give examples of false positives and false negatives where appropriate.
+
+
+Note that the color histogram scheme might work better or worse than the texture measures in various
+situations.  Make that part of your discussion of results where you see fit.
